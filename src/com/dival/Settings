@@ -1,0 +1,35 @@
+KeyboardEnabled 1
+KeyboardEnabledWhileGamepadConnected 1
+KeyboardUpdateRate 1
+KeyboardMaxTaps 7
+KeyboardCounterResetRate 30
+NumGamepad 2
+NumGamepadConnectionAttempts 1
+GamepadConnectionAttemptRate 100
+SerialConnectionPauseDuration 300
+// Number of timer calls that the arduino allows after connection before it starts to send packages
+// Recommended: 200-300
+// Note: Increase if the arduino does not reset in time
+SerialConnectionAttemptRate 30
+// Number of timer calls before SerialCommunications tries to find an arduino
+SerialUpdateRate 10
+// Number of timer calls before the arduino sends another package
+// Increase if the update frequency isn't fast enough, Decrease if Baud Rate is insufficient
+// Note: timer calls occur every 10 ms
+SerialDurationBeforeDisconnect 200
+// Number of timer calls without a receiving signal from the arduino before diconnection
+// Increase if Serial connection is unstable, Decrease if you need control at all times
+// Note: timer calls occur every 10ms, but can be changed in the MainUpdateLoop
+// Recommended: 100-300
+SerialBaudRate 57600
+// Baud Rate of the Serial Connection
+// Note: Make sure it matches the number in the Serial.begin() method on the arduino
+// Note: at 1920 baud, min SerialUpdateRate is 10
+NumROVStatusSaved 4000
+// Number of Statuses that the ROVInfo class will keep
+// Note: DataGraph draws the last 105 Statuses, so keep this number above that
+// Recommended: 4000
+NumThrusters 3
+// Number of Thrusters in the ROV
+NumServos 3
+// Number of Servos in the ROV
