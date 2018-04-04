@@ -18,17 +18,36 @@ public class ImageBox extends JPanel {
     private double scaleY;
     private double rotationInDegrees;
 
+
     public ImageBox(String imageName){
         this.setBackground(new Color(0,0,0,0));
         this.scaleX = .8;
         this.scaleY = .8;
-        rotationInDegrees = 0;
+        this.rotationInDegrees = 0;
         openImage(imageName);
+    }
+    public ImageBox(String imageName, double scaleWidth, double scaleHeight,double rotationAngle){
+        this.setBackground(new Color(0,0,0,0));
+        this.scaleX = scaleWidth;
+        this.scaleY = scaleHeight;
+        this.rotationInDegrees = rotationAngle;
+        openImage(imageName);
+    }
+    public void setScaleX(double scaleWidth){
+        this.scaleX = scaleWidth;
+    }
+
+    public void setScaleY(double scaleHeight){
+        this.scaleY = scaleHeight;
+    }
+
+    public void setRotationInDegrees(double Angle_In_Degrees){
+        this.rotationInDegrees = Angle_In_Degrees;
     }
 
     public void openImage(String imageName){
         try{
-            BufferedImage before = ImageIO.read(new File("src/com.dival/Graphics/Images/" + imageName));
+            BufferedImage before = ImageIO.read(new File("src/com/dival/Graphics/Images/" + imageName));
             int w = before.getWidth();
             int h = before.getHeight();
             BufferedImage after = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -54,6 +73,13 @@ public class ImageBox extends JPanel {
         g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-    }
+        AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(this.rotationInDegrees),
+                0, 0);
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
+        g2.drawImage(op.filter(this.imgMyImage, null),
+                (int)(this.getWidth()-(imgMyImage.getWidth()*this.scaleX))/2,
+                (int)(this.getHeight()-(imgMyImage.getHeight()*this.scaleY))/2,
+               null);
+    }
 }

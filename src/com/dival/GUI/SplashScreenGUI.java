@@ -1,5 +1,7 @@
 package com.dival.GUI;
 
+import com.dival.Graphics.Components.ImageBox;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,7 +11,9 @@ public class SplashScreenGUI extends JFrame {
     private Font font20Pt = new Font("Helvetica" , Font.PLAIN, 20);
     Container container;
     Color textColor = new Color(0, 0, 0);
-    Color backColor = new Color(236,239,241);
+    Color backColor1 = new Color(236,239,241);
+    Color backColor = new Color(38, 50, 56);
+    ImageBox SplashScreenLogo = new ImageBox("logo.png");
 
     public SplashScreenGUI(){
         JPanel layoutManager = new JPanel(new GridLayout(1,1));
@@ -19,10 +23,11 @@ public class SplashScreenGUI extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         setVisible(true);
+        setBackground(backColor);
         container = getContentPane();
         container.setBackground(backColor);
         layoutManager.setBackground(backColor);
+        layoutManager.add(SplashScreenLogo);
         container.add(layoutManager);
-
     }
 }
