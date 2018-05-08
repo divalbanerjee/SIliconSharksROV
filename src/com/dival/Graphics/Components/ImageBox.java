@@ -8,6 +8,9 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import static java.lang.Thread.sleep;
 
 
 //image name is in the format: myImageName.png    without the file extension this will not work
@@ -17,7 +20,9 @@ public class ImageBox extends JPanel {
     private double scaleX;
     private double scaleY;
     private double rotationInDegrees;
-
+    private boolean fadeIsEnabled = true;
+    private int opacity;
+    Thread runner;
 
     public ImageBox(String imageName){
         this.setBackground(new Color(0,0,0,0));
@@ -26,6 +31,7 @@ public class ImageBox extends JPanel {
         this.rotationInDegrees = 0;
         openImage(imageName);
     }
+
     public ImageBox(String imageName, double scaleWidth, double scaleHeight,double rotationAngle){
         this.setBackground(new Color(0,0,0,0));
         this.scaleX = scaleWidth;
@@ -43,6 +49,10 @@ public class ImageBox extends JPanel {
 
     public void setRotationInDegrees(double Angle_In_Degrees){
         this.rotationInDegrees = Angle_In_Degrees;
+    }
+
+    public void setFade(boolean IS_Enabled){
+        this.fadeIsEnabled = IS_Enabled;
     }
 
     public void openImage(String imageName){
@@ -63,6 +73,30 @@ public class ImageBox extends JPanel {
         }
     }
 
+    public void generateOverlayAlpha(){
+        //this generates the alpha value(transparency value) for the OverlayPanel that is drawn
+        //on top of the image
+        Thread fade = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("thead started");
+
+                for (int c = 255; c > 0 ; c--) {
+                    try {
+                        sleep(20);    //Change this number to speed up or slow down the fade
+                        System.out.println(c);
+                        opacity = c;
+                        repaint();
+                    } catch (InterruptedException ex) {
+                        System.out.println("wait failed");
+                    }
+                }
+            }
+
+        });
+        fade.start();
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -81,5 +115,18 @@ public class ImageBox extends JPanel {
                 (int)(this.getWidth()-(imgMyImage.getWidth()*this.scaleX))/2,
                 (int)(this.getHeight()-(imgMyImage.getHeight()*this.scaleY))/2,
                null);
+
+        if (fadeIsEnabled) {
+            System.out.println("true");
+            Color backGroundColor = new Color(getParent().getBackground().getRGB());
+            g2.setColor(backGroundColor);
+
+
+            Color overlayColor = new Color(backGroundColor.getRed(), backGroundColor.getGreen(),
+                    backGroundColor.getBlue(), opacity);
+            g2.setColor(overlayColor);
+            g2.fillRect(0, 0, getParent().getWidth(), getParent().getHeight());
+
+        }
     }
 }
