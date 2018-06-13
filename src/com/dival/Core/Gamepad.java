@@ -1,9 +1,14 @@
 package com.dival.Core;
 
-import net.java.games.input.*;
+
+
+
+import java.awt.*;
 
 import static com.SiliconSharks.MainUpdateLoop.Message;
 import static com.SiliconSharks.MainUpdateLoop.getStackTrace;
+import static com.dival.Core.MainUpdateLoop.Message;
+import static com.dival.Core.MainUpdateLoop.getStackTrace;
 
 public class Gamepad {
     //This is a Logitech F310 implementation, edit the # of specific components and their identifiers when you plug them in for other controllers
